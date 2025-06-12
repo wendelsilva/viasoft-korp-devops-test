@@ -48,22 +48,6 @@
             - containerd.io
             - docker-buildx-plugin
             - docker-compose-plugin
-        
-        - name: Create docker group to grant root privileges
-          ansible.builtin.group:
-            name: docker
-            state: present
-        
-        - name: Add user to docker group
-          ansible.builtin.user:
-            name: "{{ lookup('env', 'USER') }}"
-            groups: docker
-            append: true
-          register: result
-
-        - name: Update groups
-          ansible.builtin.shell:
-            cmd: newgrp docker
 
     - name: Install Go
       block:
