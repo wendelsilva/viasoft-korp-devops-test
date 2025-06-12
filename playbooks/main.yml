@@ -61,7 +61,7 @@
             append: true
           register: result
 
-        - name: Add repository to apt
+        - name: Update groups
           ansible.builtin.shell:
             cmd: newgrp docker
 
