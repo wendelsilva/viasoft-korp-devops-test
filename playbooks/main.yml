@@ -48,6 +48,12 @@
             create: true
             state: present
 
+    - name: Install go modules
+      ansible.builtin.command: go install
+      args:
+        chdir: ../server/cmd
+        
+
     - name: Compile server service
       ansible.builtin.command: go build -o http-server-projeto-korp main.go
       args:
