@@ -1,6 +1,6 @@
 services:
-  server:
-    build: ../http-server-projeto-korp
+  http-server-projeto-korp:
+    build: ../server
     networks:
       - projeto-korp
   nginx:

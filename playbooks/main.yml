@@ -29,6 +29,11 @@
           ansible.builtin.include_tasks: reset_connection.yml
           when: result.changed == true
 
+    - name: Compile server service
+      ansible.builtin.command: go build -o http-server-projeto-korp main.go
+      args:
+        chdir: ../server
+
     - name: Init services
       block:
         - name: Delete all existing services
