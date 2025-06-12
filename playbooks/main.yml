@@ -49,3 +49,12 @@
         - name: Show output
           ansible.builtin.debug:
             var: output
+
+    - name: Test service
+      ansible.builtin.uri:
+        url: http://localhost:80
+      register: response
+
+    - name: Show service response
+      ansible.builtin.debug:
+        var: response
