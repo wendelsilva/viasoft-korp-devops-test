@@ -61,6 +61,10 @@
             append: true
           register: result
 
+        - name: Add repository to apt
+          ansible.builtin.shell:
+            cmd: newgrp docker
+
     - name: Install Go
       block:
         - name: Download Go file
@@ -79,12 +83,6 @@
             line: 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin'
             create: true
             state: present
-        
-        - name: Update source
-          ansible.builtin.shell:
-            cmd: . ~/.bashrc
-            chdir: ~/
-
     
     - name: Install required modules
       ansible.builtin.shell: 
