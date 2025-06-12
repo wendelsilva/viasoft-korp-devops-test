@@ -51,7 +51,7 @@
     - name: Compile server service
       ansible.builtin.command: go build -o http-server-projeto-korp main.go
       args:
-        chdir: server
+        chdir: ../server/cmd
 
     - name: Init services
       block:
