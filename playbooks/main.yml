@@ -29,10 +29,32 @@
           ansible.builtin.include_tasks: reset_connection.yml
           when: result.changed == true
 
+    - name: Install Go
+      block:
+        - name: Download Go file
+          ansible.builtin.get_url:
+            url: https://golang.org/dl/go1.24.4.linux-amd64.tar.gz
+            dest: /tmp
+
+        - name: Extract and move go to /usr/local
+          ansible.builtin.unarchive:
+            src: /tmp/go1.24.4.linux-amd64.tar.gz
+            dest: /usr/local
+
+        - name: Add go binary to path
+          ansible.builtin.lineinfile:
+            path: ~/.profile
+            line: 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin'
+            create: true
+            state: present
+        
+        - name: Update source and test go version
+          ansible.builtin.shell: . ~/.profile && go version
+
     - name: Compile server service
       ansible.builtin.command: go build -o http-server-projeto-korp main.go
       args:
-        chdir: ../server
+        chdir: server
 
     - name: Init services
       block:
