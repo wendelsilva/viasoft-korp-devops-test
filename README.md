@@ -54,10 +54,10 @@ Como pré-requisitos desse projeto é preciso um servidor linux ubuntu com git e
 - [ ] Ansible
 
 ```bash
-sudo apt-get install ansible-core
+sudo apt-get install ansible-core -y
 ```
 ```bash
-sudo apt-get install git
+sudo apt-get install git -y
 ```
 
 ### 📦 Clonando o repositório
