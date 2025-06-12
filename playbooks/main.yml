@@ -25,13 +25,15 @@
             url: https://download.docker.com/linux/ubuntu/gpg
             dest: /etc/apt/keyrings/docker.asc
         
-        - name: Excute script to install docker
+        - name: Change file mode
           ansible.builtin.file:
             path: /etc/apt/keyrings/docker.asc
             mode: a+r
 
-        - name: Excute script to install docker
-          ansible.builtin.command: 'echo \ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \$(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+        - name: Add repository to apt
+          ansible.builtin.shell: |
+           echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+           $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable" > /etc/apt/sources.list.d/docker.list
           args:
             chdir: ~/
 
