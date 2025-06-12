@@ -16,6 +16,7 @@
 
         - name: Install certificates and curl
           ansible.builtin.apt:
+            pkg:
             - ca-certificates
             - curl
 
@@ -39,6 +40,7 @@
 
         - name: Install certificates and curl
           ansible.builtin.apt:
+            pkg:
             - docker-ce
             - docker-ce-cli
             - containerd.io
