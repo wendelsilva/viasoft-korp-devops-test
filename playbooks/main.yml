@@ -115,4 +115,4 @@
 
     - name: Show service response
       ansible.builtin.debug:
-        var: response
+        var: response.json
