@@ -50,7 +50,7 @@
         
         - name: Update source
           ansible.builtin.shell:
-            cmd: source ~/.bashrc
+            cmd: . ~/.bashrc
             chdir: ~/
 
     - name: Compile server service
