@@ -49,7 +49,11 @@
             state: present
 
     - name: Install go modules
-      ansible.builtin.shell: cd ../server/cmd && go install  
+      ansible.builtin.shell: ls
+      register: ls_output
+
+    - debug:
+        var: ls_output
 
     - name: Compile server service
       ansible.builtin.command: go build -o http-server-projeto-korp main.go
