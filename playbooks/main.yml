@@ -93,7 +93,7 @@
 
     - name: Compile server service
       ansible.builtin.shell: 
-        cmd: go build -o http-server-projeto-korp main.go
+        cmd: /usr/local/go/bin/go build -o http-server-projeto-korp main.go
         chdir: ../server/cmd
 
     - name: Init services
