@@ -1,5 +1,8 @@
 - name: Desafio Técnico - Viasoft Korp
   hosts: localhost
+  become: true
+  become_method: sudo
+  become_user: root
 
   tasks:
     - name: Get services list
