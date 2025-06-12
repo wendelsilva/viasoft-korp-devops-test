@@ -1,0 +1,52 @@
+- name: Desafio Técnico - Viasoft Korp
+  hosts: localhost
+
+  tasks:
+    - name: Get services list
+      ansible.builtin.service_facts:
+    
+    - name: Install docker
+      when: ansible_facts['services']['docker.service']['status'] | default('not-found') != 'not-found'
+      block:
+        - name: Download official script to install docker
+          ansible.builtin.get_url:
+            url: https://get.docker.com
+            dest: /tmp/get-docker.sh
+        
+        - name: Create docker group to grant root privilegies
+          ansible.builtin.group:
+            name: docker
+            state: present
+        
+        - name: Add user to docker group
+          ansible.builtin.user:
+            name: "{{ lookup('env', 'USER') }}"
+            groups: docker
+            append: true
+          register: result
+
+        - name: Include reset connection tasks
+          ansible.builtin.include_tasks: reset_connection.yml
+          when: result.changed == true
+
+    - name: Clone project repository
+      ansible.builtin.git:
+        repo: https://github.com/wendelsilva/viasoft-korp-devops-test
+        dest: /tmp
+        version: main
+
+    - name: Init services
+      block:
+        - name: Delete all existing services
+          community.docker.docker_compose_v2:
+            project_src: docker
+            state: absent
+        
+        - name: Create and start services
+          community.docker.docker_compose_v2:
+            project_src: docker
+          register: output
+
+        - name: Show output
+          ansible.builtin.debug:
+            var: output
