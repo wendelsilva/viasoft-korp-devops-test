@@ -76,7 +76,7 @@
         - name: Add go binary to path
           ansible.builtin.lineinfile:
             path: ~/.bashrc
-            line: 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin'
+            line: 'export PATH=$PATH:/usr/local/go/bin:$HOME/bin'
             create: true
             state: present
         
