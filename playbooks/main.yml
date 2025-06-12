@@ -6,7 +6,7 @@
       ansible.builtin.service_facts:
     
     - name: Install docker
-      when: ansible_facts['services']['docker.service']['status'] | default('not-found') != 'not-found'
+      when: ansible_facts['services']['docker.service']['status'] | default('not-found') == 'not-found'
       block:
         - name: Download official script to install docker
           ansible.builtin.get_url:
