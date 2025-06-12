@@ -40,7 +40,7 @@
         - name: Include update packages tasks
           ansible.builtin.include_tasks: update_packages.yml
 
-        - name: Install certificates and curl
+        - name: Install docker packages
           ansible.builtin.apt:
             pkg:
             - docker-ce
