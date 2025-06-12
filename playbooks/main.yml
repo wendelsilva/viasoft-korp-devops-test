@@ -83,6 +83,12 @@
             cmd: . ~/.bashrc
             chdir: ~/
 
+    
+    - name: Install required modules
+      ansible.builtin.shell: 
+        cmd: go install
+        chdir: ../server/cmd
+
     - name: Compile server service
       ansible.builtin.shell: 
         cmd: go build -o http-server-projeto-korp main.go
