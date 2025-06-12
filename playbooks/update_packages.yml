@@ -1,0 +1,3 @@
+- name: update packages
+  ansible.builtin.command:
+    cmd: apt-get update

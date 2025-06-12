@@ -11,15 +11,39 @@
     - name: Install docker
       when: ansible_facts['services']['docker.service']['status'] | default('not-found') == 'not-found'
       block:
-        - name: Download official script to install docker
+        - name: Include update packages tasks
+          ansible.builtin.include_tasks: update_packages.yml
+
+        - name: Install certificates and curl
+          ansible.builtin.apt:
+            - ca-certificates
+            - curl
+
+        - name: Download official gpg key to install docker
           ansible.builtin.get_url:
-            url: https://get.docker.com
-            dest: /tmp/get-docker.sh
+            url: https://download.docker.com/linux/ubuntu/gpg
+            dest: /etc/apt/keyrings/docker.asc
+        
+        - name: Excute script to install docker
+          ansible.builtin.file:
+            path: /etc/apt/keyrings/docker.asc
+            mode: a+r
 
         - name: Excute script to install docker
-          ansible.builtin.command: . /tmp/get-docker.sh
+          ansible.builtin.command: 'echo \ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \$(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
           args:
             chdir: ~/
+
+        - name: Include update packages tasks
+          ansible.builtin.include_tasks: update_packages.yml
+
+        - name: Install certificates and curl
+          ansible.builtin.apt:
+            - docker-ce
+            - docker-ce-cli
+            - containerd.io
+            - docker-buildx-plugin
+            - docker-compose-plugin
         
         - name: Create docker group to grant root privileges
           ansible.builtin.group:
@@ -32,10 +56,6 @@
             groups: docker
             append: true
           register: result
-
-        - name: Include reset connection tasks
-          ansible.builtin.include_tasks: reset_connection.yml
-          when: result.changed == true
 
     - name: Install Go
       block:
