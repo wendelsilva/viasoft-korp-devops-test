@@ -61,9 +61,10 @@
     - name: Init services
       block:
         - name: Delete all existing services
-          community.docker.docker_compose_v2:
-            project_src: ../docker
-            state: absent
+          ansible.builtin.command:
+            cmd: docker compose down
+          args:
+            chdir: ../docker
         
         - name: Create and start services
           community.docker.docker_compose_v2:
