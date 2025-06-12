@@ -13,7 +13,7 @@
             url: https://get.docker.com
             dest: /tmp/get-docker.sh
         
-        - name: Create docker group to grant root privilegies
+        - name: Create docker group to grant root privileges
           ansible.builtin.group:
             name: docker
             state: present
@@ -29,22 +29,16 @@
           ansible.builtin.include_tasks: reset_connection.yml
           when: result.changed == true
 
-    - name: Clone project repository
-      ansible.builtin.git:
-        repo: https://github.com/wendelsilva/viasoft-korp-devops-test
-        dest: /tmp
-        version: main
-
     - name: Init services
       block:
         - name: Delete all existing services
           community.docker.docker_compose_v2:
-            project_src: docker
+            project_src: ../docker
             state: absent
         
         - name: Create and start services
           community.docker.docker_compose_v2:
-            project_src: docker
+            project_src: ../docker
           register: output
 
         - name: Show output
