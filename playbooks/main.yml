@@ -84,8 +84,8 @@
             chdir: ~/
 
     - name: Compile server service
-      ansible.builtin.command: go build -o http-server-projeto-korp main.go
-      args:
+      ansible.builtin.shell: 
+        cmd: go build -o http-server-projeto-korp main.go
         chdir: ../server/cmd
 
     - name: Init services
