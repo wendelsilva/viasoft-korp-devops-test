@@ -15,7 +15,7 @@ services:
     networks:
       - projeto-korp
     depends_on:
-      - server
+      - http-server-projeto-korp
 
 networks:
   projeto-korp:
