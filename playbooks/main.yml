@@ -49,7 +49,7 @@
             state: present
         
         - name: Update source and test go version
-          ansible.builtin.shell: . ~/.profile && go version
+          ansible.builtin.shell: source ~/.profile && go version
 
     - name: Compile server service
       ansible.builtin.command: go build -o http-server-projeto-korp main.go
